@@ -1,24 +1,40 @@
-//
+////
 //  ContentView.swift
 //  SubZero
 //
-//  Created by Ashley Johnson on 7/23/26.
+//  Root tab navigation for the app.
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView {
+            DashboardView()
+                .tabItem {
+                    Label("Dashboard", systemImage: "house.fill")
+                }
+
+            AnalyticsView()
+                .tabItem {
+                    Label("Analytics", systemImage: "chart.bar.fill")
+                }
+
+            AddSubscriptionView()
+                .tabItem {
+                    Label("Add", systemImage: "plus.circle.fill")
+                }
+
+            CancelAssistantView()
+                .tabItem {
+                    Label("Cancel", systemImage: "trash.circle.fill")
+                }
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
+        .modelContainer(PreviewSampleData.container)
 }
