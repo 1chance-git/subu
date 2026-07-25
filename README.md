@@ -17,7 +17,7 @@ boxes, and more.
 
 Having trouble with Subu, found a bug, or have a feature request? Open an
 [issue](https://github.com/1chance-git/subu/issues) on this repo, or email
-[1chance41798@gmail.com](mailto:1chance41798@gmail.com).
+[bigbankuchie@icloud.com](mailto:bigbankuchie@icloud.com).
 
 ## Privacy
 
