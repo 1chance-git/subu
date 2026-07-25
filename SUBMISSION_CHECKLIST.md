@@ -10,10 +10,6 @@
       — the code already targets product ID `com.chancejohnson.subu.removeads`
       (`StoreManager.swift`); create it there with a matching ID, or update
       the constant if you want a different one.
-- [ ] Free 5-minute USPTO TESS trademark search for "Subu" before
-      publishing publicly, just as a sanity check (flagged in
-      `APP_STORE_LISTING.md`) — low risk given it's a coined word, but
-      free to confirm.
 - [ ] Take App Store screenshots (at least one required device size, e.g.
       6.7" iPhone) — can be done together once the account/build pipeline
       above is unblocked; I can drive the Simulator for this when you're
@@ -63,3 +59,6 @@
       repo, https://github.com/1chance-git/subu, with a real README
       (description, support contact, privacy policy link) replacing
       GitHub's auto-generated placeholder.
+- [x] USPTO trademark search for "Subu" done (via tmsearch.uspto.gov,
+      run by the user directly since it's behind bot-detection I can't
+      script or view in-browser) — no conflicts found.
