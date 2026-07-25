@@ -10,10 +10,6 @@
       — the code already targets product ID `com.chancejohnson.subu.removeads`
       (`StoreManager.swift`); create it there with a matching ID, or update
       the constant if you want a different one.
-- [ ] Take App Store screenshots (at least one required device size, e.g.
-      6.7" iPhone) — can be done together once the account/build pipeline
-      above is unblocked; I can drive the Simulator for this when you're
-      ready.
 - [ ] Complete App Store Connect's App Privacy questionnaire using
       `PRIVACY_POLICY.md` as the source of truth, and the age-rating
       questionnaire (see the note in `APP_STORE_LISTING.md` about the
@@ -62,3 +58,9 @@
 - [x] USPTO trademark search for "Subu" done (via tmsearch.uspto.gov,
       run by the user directly since it's behind bot-detection I can't
       script or view in-browser) — no conflicts found.
+- [x] App Store screenshots taken on iPhone 17 Pro Max (1320×2868, the
+      current 6.7"/6.9" display class Apple requires) — Dashboard,
+      Discover, Cancel Assistant, and subscription detail, seeded with
+      sample subscriptions and with the debug-only AdMob test banner
+      cropped out. Delivered to the user; ready to upload to App Store
+      Connect.
