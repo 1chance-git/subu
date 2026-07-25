@@ -1,7 +1,4 @@
 //
-//  Cancellationguidelibrary .swift
-//  SubZero
-////
 //  CancellationGuideLibrary.swift
 //  SubZero
 //

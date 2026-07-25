@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AA11BB22CC33DD44EE55FF88 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = AA11BB22CC33DD44EE55FF77 /* GoogleMobileAds */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		A0DC8889301315180048FBCE /* SubZero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubZero.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA11BB22CC33DD44EE55FF88 /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +60,7 @@
 				A0DC8885301315180048FBCE /* Sources */,
 				A0DC8886301315180048FBCE /* Frameworks */,
 				A0DC8887301315180048FBCE /* Resources */,
+				AA11BB22CC33DD44EE55FF99 /* Inject Custom Info.plist Keys */,
 			);
 			buildRules = (
 			);
@@ -65,6 +71,7 @@
 			);
 			name = SubZero;
 			packageProductDependencies = (
+				AA11BB22CC33DD44EE55FF77 /* GoogleMobileAds */,
 			);
 			productName = SubZero;
 			productReference = A0DC8889301315180048FBCE /* SubZero.app */;
@@ -94,6 +101,9 @@
 			);
 			mainGroup = A0DC8880301315180048FBCE;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AA11BB22CC33DD44EE55FF66 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A0DC888A301315180048FBCE /* Products */;
 			projectDirPath = "";
@@ -113,6 +123,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AA11BB22CC33DD44EE55FF99 /* Inject Custom Info.plist Keys */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Inject Custom Info.plist Keys";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# GENERATE_INFOPLIST_FILE only synthesizes Apple's own known Info.plist\n# keys from INFOPLIST_KEY_* build settings; third-party keys like AdMob's\n# GADApplicationIdentifier are silently dropped. Inject it directly here\n# instead, iOS only (no ads/AdMob on macOS).\nif [ \"$PLATFORM_NAME\" = \"iphoneos\" ] || [ \"$PLATFORM_NAME\" = \"iphonesimulator\" ]; then\n  PLIST=\"$CODESIGNING_FOLDER_PATH/Info.plist\"\n  if [ -f \"$PLIST\" ] && [ -n \"$GAD_APPLICATION_IDENTIFIER\" ]; then\n    /usr/libexec/PlistBuddy -c \"Delete :GADApplicationIdentifier\" \"$PLIST\" 2>/dev/null\n    /usr/libexec/PlistBuddy -c \"Add :GADApplicationIdentifier string $GAD_APPLICATION_IDENTIFIER\" \"$PLIST\"\n  fi\n  # SKAdNetworkItems: Google's required ad-network identifiers for\n  # SKAdNetwork attribution (fetched from developers.google.com/admob/ios/ios14).\n  if [ -f \"$PLIST\" ]; then\n    /usr/libexec/PlistBuddy -c \"Delete :SKAdNetworkItems\" \"$PLIST\" 2>/dev/null\n    /usr/libexec/PlistBuddy -c \"Add :SKAdNetworkItems array\" \"$PLIST\" 2>/dev/null\n    NETWORKS=(cstr6suwn9.skadnetwork 4fzdc2evr5.skadnetwork 2fnua5tdw4.skadnetwork ydx93a7ass.skadnetwork p78axxw29g.skadnetwork v72qych5uu.skadnetwork ludvb6z3bs.skadnetwork cp8zw746q7.skadnetwork 3sh42y64q3.skadnetwork c6k4g5qg8m.skadnetwork s39g8k73mm.skadnetwork wg4vff78zm.skadnetwork 3qy4746246.skadnetwork f38h382jlk.skadnetwork hs6bdukanm.skadnetwork mlmmfzh3r3.skadnetwork v4nxqhlyqp.skadnetwork wzmmz9fp6w.skadnetwork su67r6k2v3.skadnetwork yclnxrl5pm.skadnetwork t38b2kh725.skadnetwork 7ug5zh24hu.skadnetwork gta9lk7p23.skadnetwork vutu7akeur.skadnetwork y5ghdn5j9k.skadnetwork v9wttpbfk9.skadnetwork n38lu8286q.skadnetwork 47vhws6wlr.skadnetwork kbd757ywx3.skadnetwork 9t245vhmpl.skadnetwork a2p9lx4jpn.skadnetwork 22mmun2rn5.skadnetwork 44jx6755aq.skadnetwork k674qkevps.skadnetwork 4468km3ulz.skadnetwork 2u9pt9hc89.skadnetwork 8s468mfl3y.skadnetwork klf5c3l5u5.skadnetwork ppxm28t8ap.skadnetwork kbmxgpxpgc.skadnetwork uw77j35x4d.skadnetwork 578prtvx9j.skadnetwork 4dzt52r2t5.skadnetwork tl55sbb4fm.skadnetwork c3frkrj4fj.skadnetwork e5fvkxwrpn.skadnetwork 8c4e2ghe7u.skadnetwork 3rd42ekr43.skadnetwork 97r2b46745.skadnetwork 3qcr597p9d.skadnetwork)\n    i=0\n    for net in \"${NETWORKS[@]}\"; do\n      /usr/libexec/PlistBuddy -c \"Add :SKAdNetworkItems:$i dict\" \"$PLIST\"\n      /usr/libexec/PlistBuddy -c \"Add :SKAdNetworkItems:$i:SKAdNetworkIdentifier string $net\" \"$PLIST\"\n      i=$((i+1))\n    done\n  fi\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A0DC8885301315180048FBCE /* Sources */ = {
@@ -162,7 +194,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -223,7 +255,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -245,11 +277,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = S4TVS38XY6;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
+				GAD_APPLICATION_IDENTIFIER = "ca-app-pub-3940256099942544~1458002511";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Subu;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This identifier will be used to deliver personalized ads to you.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -260,23 +297,24 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = VAP.SubZero;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chancejohnson.subu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 26.5;
 			};
 			name = Debug;
@@ -287,11 +325,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = S4TVS38XY6;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
+				GAD_APPLICATION_IDENTIFIER = "ca-app-pub-2428001862412704~6852556211";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Subu;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This identifier will be used to deliver personalized ads to you.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -302,23 +345,24 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = VAP.SubZero;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chancejohnson.subu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 26.5;
 			};
 			name = Release;
@@ -345,6 +389,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AA11BB22CC33DD44EE55FF66 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AA11BB22CC33DD44EE55FF77 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA11BB22CC33DD44EE55FF66 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A0DC8881301315180048FBCE /* Project object */;
 }

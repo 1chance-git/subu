@@ -10,10 +10,11 @@ import SwiftUI
 import SwiftData
 
 @main
-struct SubZeroApp: App {
+struct SubuApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Subscription.self
+            Subscription.self,
+            SubscriptionStatusEvent.self,
         ])
         let persistentConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -23,7 +24,7 @@ struct SubZeroApp: App {
 
         // If the on-disk store cannot be opened (for example, a corrupted
         // database file after an interrupted write), fall back to an
-        // in-memory store so SubZero remains fully usable for the current
+        // in-memory store so Subu remains fully usable for the current
         // session instead of failing to launch.
         let inMemoryConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
         return try! ModelContainer(for: schema, configurations: [inMemoryConfiguration])

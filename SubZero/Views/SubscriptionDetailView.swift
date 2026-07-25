@@ -2,26 +2,56 @@
 //  SubscriptionDetailView.swift
 //  SubZero
 //
-//  Read-only detail screen for a tracked subscription.
+//  Detail screen for a tracked subscription: status, category, cancellation,
+//  and notes.
 //
 
 import SwiftUI
 import SwiftData
 
 struct SubscriptionDetailView: View {
-    let subscription: Subscription
+    @Bindable var subscription: Subscription
+    @Environment(\.modelContext) private var modelContext
+    @Environment(StoreManager.self) private var storeManager
+
+    private var aiInsight: CancelRiskPredictor.CancelRiskInsight? {
+        guard storeManager.isAdsRemoved else { return nil }
+        return CancelRiskPredictor.insight(for: subscription, using: modelContext)
+    }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 header
-                billingSection
+                if let aiInsight {
+                    aiInsightSection(aiInsight)
+                }
+                statusSection
+                detailsSection
                 cancellationSection
                 notesSection
             }
             .padding()
         }
         .navigationTitle(subscription.name)
+    }
+
+    private func aiInsightSection(_ insight: CancelRiskPredictor.CancelRiskInsight) -> some View {
+        DetailSection(title: "AI Insight") {
+            HStack(spacing: 6) {
+                Image(systemName: "sparkles")
+                    .foregroundStyle(Color.accentColor)
+                Text("\(Int(insight.score * 100))% cancel risk")
+                    .font(.subheadline.weight(.semibold))
+            }
+            if !insight.reasons.isEmpty {
+                let reasonText = insight.reasons.joined(separator: ", ")
+                Text(reasonText.prefix(1).uppercased() + reasonText.dropFirst())
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
     }
 
     private var header: some View {
@@ -46,15 +76,22 @@ struct SubscriptionDetailView: View {
             Spacer()
         }
         .padding(16)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .cardBackground(cornerRadius: 18)
     }
 
-    private var billingSection: some View {
-        DetailSection(title: "Billing") {
-            DetailRow(label: "Cost", value: formattedAmount(subscription.monthlyCost))
-            DetailRow(label: "Billing Cycle", value: subscription.billingCycle.rawValue)
-            DetailRow(label: "Monthly Equivalent", value: formattedAmount(subscription.normalizedMonthlyCost))
-            DetailRow(label: "Next Renewal", value: subscription.nextRenewalDate.formatted(date: .abbreviated, time: .omitted))
+    private var statusSection: some View {
+        DetailSection(title: "Status") {
+            Picker("Status", selection: $subscription.status) {
+                ForEach(SubscriptionStatus.allCases) { status in
+                    Label(status.rawValue, systemImage: status.symbolName).tag(status)
+                }
+            }
+            .pickerStyle(.segmented)
+        }
+    }
+
+    private var detailsSection: some View {
+        DetailSection(title: "Details") {
             DetailRow(label: "Category", value: subscription.category.rawValue)
         }
     }
@@ -93,12 +130,6 @@ struct SubscriptionDetailView: View {
         }
     }
 
-    private func formattedAmount(_ value: Double) -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.locale = Locale.current
-        return formatter.string(from: NSNumber(value: value)) ?? "$0.00"
-    }
 }
 
 private struct DetailSection<Content: View>: View {
@@ -109,11 +140,12 @@ private struct DetailSection<Content: View>: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
                 .font(.headline)
+                .accessibilityAddTraits(.isHeader)
             content
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .cardBackground(cornerRadius: 18)
     }
 }
 
@@ -139,4 +171,13 @@ private struct DetailRow: View {
         SubscriptionDetailView(subscription: PreviewSampleData.netflix)
     }
     .modelContainer(PreviewSampleData.container)
+    .environment(StoreManager())
+}
+
+#Preview("Adobe") {
+    NavigationStack {
+        SubscriptionDetailView(subscription: PreviewSampleData.adobe)
+    }
+    .modelContainer(PreviewSampleData.container)
+    .environment(StoreManager())
 }
