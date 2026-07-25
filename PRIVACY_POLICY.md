@@ -1,6 +1,6 @@
 # Subu Privacy Policy
 
-_Last updated: [fill in date before publishing]_
+_Last updated: July 24, 2026_
 
 Subu is a subscription-tracking and cancellation-assistance app. This
 policy describes exactly what the app does and doesn't do with your data.
@@ -50,7 +50,7 @@ information — Apple handles the transaction directly.
 
 ## Contact
 
-[Add a contact email here before publishing.]
+[bigbankuchie@icloud.com](mailto:bigbankuchie@icloud.com)
 
 ## Changes to this policy
 
