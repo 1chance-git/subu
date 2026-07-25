@@ -7,21 +7,9 @@
       configuration issue.
 - [ ] Create the app record in App Store Connect once enrolled.
 - [ ] Create the "Remove Ads" in-app purchase product in App Store Connect
-      — the code already targets product ID `VAP.SubZero.removeads`
+      — the code already targets product ID `com.chancejohnson.subu.removeads`
       (`StoreManager.swift`); create it there with a matching ID, or update
       the constant if you want a different one.
-- [ ] Recommended: spot-check the 50 `SKAdNetworkItems` entries (or the
-      full list) against `developers.google.com/admob/ios/ios14` before
-      final submission — they were fetched live from Google's docs this
-      session (not fabricated from memory), but Google adds entries over
-      time and the fetch went through an intermediate summarization step,
-      so a final check costs little and removes any residual doubt.
-- [ ] Decide on a real bundle identifier if `VAP.SubZero` was a
-      placeholder — it's effectively permanent once you submit a build.
-- [ ] Host `PRIVACY_POLICY.md` somewhere with a public URL (GitHub Pages, a
-      Notion public page, or any site you control) and fill in the date/
-      contact email placeholders in it first.
-- [ ] Fill in the Support URL placeholder in `APP_STORE_LISTING.md`.
 - [ ] Free 5-minute USPTO TESS trademark search for "Subu" before
       publishing publicly, just as a sanity check (flagged in
       `APP_STORE_LISTING.md`) — low risk given it's a coined word, but
@@ -62,4 +50,16 @@
       testing); only Release builds use the real ones — verified both
       configurations produce the correct ID in their own Info.plist.
 - [x] All 50 `SKAdNetworkItems` entries injected via the same build-phase
-      script, verified present in the built Info.plist.
+      script, verified present in the built Info.plist. Spot-checked
+      against `developers.google.com/admob/ios/ios14` directly (raw HTML
+      diff, no summarization step) — exact match, all 50 confirmed current.
+- [x] Bundle identifier decided: `com.chancejohnson.subu` (app renamed
+      SubZero → Subu throughout; verified clean Debug build after the
+      rename).
+- [x] `PRIVACY_POLICY.md` date and contact email placeholders filled in,
+      and the policy is hosted at a public URL via GitHub Pages:
+      https://1chance-git.github.io/subu/privacy.html
+- [x] Support URL filled in (`APP_STORE_LISTING.md`): the project's GitHub
+      repo, https://github.com/1chance-git/subu, with a real README
+      (description, support contact, privacy policy link) replacing
+      GitHub's auto-generated placeholder.
