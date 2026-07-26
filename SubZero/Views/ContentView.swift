@@ -24,6 +24,7 @@ private enum AppTab: Int, CaseIterable {
 struct ContentView: View {
     @State private var selectedTab: AppTab = .dashboard
     @State private var storeManager = StoreManager()
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     #if os(iOS)
     @State private var showRemoveAds = false
     #endif
@@ -55,9 +56,16 @@ struct ContentView: View {
             #if os(iOS)
             if !storeManager.isAdsRemoved {
                 adBar
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
             }
             #endif
         }
+        #if os(iOS)
+        .animation(
+            reduceMotion ? .easeInOut(duration: 0.2) : .snappy,
+            value: storeManager.isAdsRemoved
+        )
+        #endif
         .environment(storeManager)
         #if os(iOS)
         .task {

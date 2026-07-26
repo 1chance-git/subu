@@ -88,6 +88,7 @@ struct SubscriptionDetailView: View {
             }
             .pickerStyle(.segmented)
         }
+        .sensoryFeedback(.selection, trigger: subscription.status)
     }
 
     private var detailsSection: some View {

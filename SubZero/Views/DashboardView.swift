@@ -100,7 +100,7 @@ struct DashboardView: View {
             .padding(14)
             .cardBackground(cornerRadius: 16)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(CardPressStyle())
         .accessibilityElement(children: .combine)
         .accessibilityLabel("Unlock AI Insights. See predicted cancel-risk scores and remove ads. One-time purchase.")
     }
@@ -152,7 +152,7 @@ struct DashboardView: View {
             .padding(14)
             .cardBackground(cornerRadius: 16)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(CardPressStyle())
         .accessibilityElement(children: .combine)
         .accessibilityLabel("AI Insight. \(item.subscription.name): \(item.insight.summary)")
     }
@@ -265,7 +265,7 @@ struct DashboardView: View {
                     } label: {
                         SmartSuggestionRow(suggestion: suggestion)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(CardPressStyle())
                 }
             }
         }
@@ -328,7 +328,7 @@ struct DashboardView: View {
                     } label: {
                         SubscriptionRow(subscription: subscription)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(CardPressStyle())
                     .contextMenu {
                         statusMenu(for: subscription)
                     }
@@ -395,8 +395,9 @@ private struct StatusSummaryCard: View {
             .padding(16)
             .cardBackground(cornerRadius: 18)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(CardPressStyle())
         .opacity(count == 0 ? 0.55 : 1)
+        .animation(.snappy, value: count == 0)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(status.rawValue): \(count) subscriptions")
         .accessibilityHint(count > 0 ? "Scrolls to this group" : "")

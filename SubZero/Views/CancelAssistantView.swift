@@ -12,6 +12,7 @@ import SwiftData
 struct CancelAssistantView: View {
     @Query(sort: \Subscription.name) private var subscriptions: [Subscription]
     @Environment(\.openURL) private var openURL
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var preselectedSubscription: Subscription?
 
@@ -27,13 +28,13 @@ struct CancelAssistantView: View {
             Group {
                 if let subscription = selectedSubscription {
                     guideView(for: subscription)
-                        .transition(.opacity.combined(with: .move(edge: .trailing)))
+                        .transition(reduceMotion ? .opacity : .opacity.combined(with: .move(edge: .trailing)))
                 } else {
                     pickerView
                         .transition(.opacity)
                 }
             }
-            .animation(.snappy, value: selectedSubscription)
+            .animation(reduceMotion ? .easeInOut(duration: 0.2) : .snappy, value: selectedSubscription)
             .sensoryFeedback(.selection, trigger: selectedSubscription)
             .navigationTitle("Cancel Assistant")
             .toolbar {
@@ -63,7 +64,7 @@ struct CancelAssistantView: View {
                             } label: {
                                 SubscriptionPickerRow(subscription: subscription)
                             }
-                            .buttonStyle(.plain)
+                            .buttonStyle(CardPressStyle())
                         }
                     }
                     .padding()

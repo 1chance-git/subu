@@ -11,6 +11,7 @@ import StoreKit
 
 struct RemoveAdsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     var storeManager: StoreManager
 
     @State private var isPurchasing = false
@@ -40,8 +41,10 @@ struct RemoveAdsView: View {
                     Label("Ads already removed — thank you!", systemImage: "checkmark.circle.fill")
                         .foregroundStyle(.green)
                         .font(.subheadline.weight(.semibold))
+                        .transition(.scale(scale: 0.9).combined(with: .opacity))
                 } else {
                     purchaseButton
+                        .transition(.opacity)
                 }
 
                 Button {
@@ -60,6 +63,11 @@ struct RemoveAdsView: View {
             }
             .padding()
             .navigationTitle("Remove Ads")
+            .animation(
+                reduceMotion ? .easeInOut(duration: 0.2) : .spring(duration: 0.4, bounce: 0.25),
+                value: storeManager.isAdsRemoved
+            )
+            .sensoryFeedback(.success, trigger: storeManager.isAdsRemoved)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Done") { dismiss() }
