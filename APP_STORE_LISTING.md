@@ -73,8 +73,7 @@ still matches your intent before submitting; Finance is the other
 reasonable option if you'd rather compete in that category browse tab)
 
 ## Support URL
-[Needs a real hosted page — even a simple GitHub repo README or a one-page
-site works. Required by App Store Connect.]
+https://github.com/1chance-git/subu
 
 ## Marketing URL (optional)
 [Optional — leave blank if you don't have one.]
