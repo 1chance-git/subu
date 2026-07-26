@@ -75,7 +75,7 @@ struct DiscoverSubscriptionsView: View {
             }
             .navigationTitle("Find Your Subscriptions")
             .searchable(text: $searchText, prompt: "Search subscriptions")
-            .animation(.snappy, value: groupedItems.map(\.section))
+            .animation(.snappy, value: totalMatches)
             .sensoryFeedback(.success, trigger: addPulse)
             .alert("Added to Review", isPresented: $showAddedConfirmation) {
                 Button("OK", role: .cancel) {}

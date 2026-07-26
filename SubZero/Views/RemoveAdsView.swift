@@ -41,7 +41,7 @@ struct RemoveAdsView: View {
                     Label("Ads already removed — thank you!", systemImage: "checkmark.circle.fill")
                         .foregroundStyle(.green)
                         .font(.subheadline.weight(.semibold))
-                        .transition(.scale(scale: 0.9).combined(with: .opacity))
+                        .transition(.motionAware(reduceMotion, full: .scale(scale: 0.9).combined(with: .opacity)))
                 } else {
                     purchaseButton
                         .transition(.opacity)
@@ -64,7 +64,7 @@ struct RemoveAdsView: View {
             .padding()
             .navigationTitle("Remove Ads")
             .animation(
-                reduceMotion ? .easeInOut(duration: 0.2) : .spring(duration: 0.4, bounce: 0.25),
+                .motionAware(reduceMotion, full: .spring(duration: 0.4, bounce: 0.25)),
                 value: storeManager.isAdsRemoved
             )
             .sensoryFeedback(.success, trigger: storeManager.isAdsRemoved)

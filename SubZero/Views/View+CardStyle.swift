@@ -17,6 +17,24 @@ extension View {
     }
 }
 
+extension Animation {
+    /// `full` when motion is allowed, or a short crossfade-friendly curve
+    /// when the user has Reduce Motion enabled — the one place every
+    /// motion-sensitive animation in the app should get this fallback from,
+    /// instead of each call site re-deriving its own reduced curve.
+    static func motionAware(_ reduceMotion: Bool, full: Animation = .snappy) -> Animation {
+        reduceMotion ? .easeInOut(duration: 0.2) : full
+    }
+}
+
+extension AnyTransition {
+    /// `full` when motion is allowed, or a plain crossfade when the user has
+    /// Reduce Motion enabled — pairs with `Animation.motionAware(_:full:)`.
+    static func motionAware(_ reduceMotion: Bool, full: AnyTransition) -> AnyTransition {
+        reduceMotion ? .opacity : full
+    }
+}
+
 /// Press feedback for card-style rows (`Button`/`NavigationLink` wrapped in
 /// `.buttonStyle(.plain)` to suppress the system highlight) — without this,
 /// tapping a card gives no visual confirmation the tap registered.
@@ -28,7 +46,7 @@ struct CardPressStyle: ButtonStyle {
             .scaleEffect(configuration.isPressed ? 0.97 : 1)
             .opacity(configuration.isPressed ? 0.85 : 1)
             .animation(
-                reduceMotion ? .easeOut(duration: 0.15) : .spring(duration: 0.15, bounce: 0.1),
+                .motionAware(reduceMotion, full: .spring(duration: 0.15, bounce: 0.1)),
                 value: configuration.isPressed
             )
     }

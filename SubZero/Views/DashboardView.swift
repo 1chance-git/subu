@@ -270,7 +270,7 @@ struct DashboardView: View {
                 }
             }
         }
-        .transition(reduceMotion ? .opacity : .opacity.combined(with: .move(edge: .top)))
+        .transition(.motionAware(reduceMotion, full: .opacity.combined(with: .move(edge: .top))))
     }
 
     @ViewBuilder

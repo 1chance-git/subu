@@ -28,13 +28,13 @@ struct CancelAssistantView: View {
             Group {
                 if let subscription = selectedSubscription {
                     guideView(for: subscription)
-                        .transition(reduceMotion ? .opacity : .opacity.combined(with: .move(edge: .trailing)))
+                        .transition(.motionAware(reduceMotion, full: .opacity.combined(with: .move(edge: .trailing))))
                 } else {
                     pickerView
                         .transition(.opacity)
                 }
             }
-            .animation(reduceMotion ? .easeInOut(duration: 0.2) : .snappy, value: selectedSubscription)
+            .animation(.motionAware(reduceMotion), value: selectedSubscription)
             .sensoryFeedback(.selection, trigger: selectedSubscription)
             .navigationTitle("Cancel Assistant")
             .toolbar {

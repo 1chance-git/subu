@@ -55,15 +55,12 @@ struct ContentView: View {
             #if os(iOS)
             if !storeManager.isAdsRemoved {
                 adBar
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .transition(.motionAware(reduceMotion, full: .move(edge: .bottom).combined(with: .opacity)))
             }
             #endif
         }
         #if os(iOS)
-        .animation(
-            reduceMotion ? .easeInOut(duration: 0.2) : .snappy,
-            value: storeManager.isAdsRemoved
-        )
+        .animation(.motionAware(reduceMotion), value: storeManager.isAdsRemoved)
         #endif
         .environment(storeManager)
         #if os(iOS)
