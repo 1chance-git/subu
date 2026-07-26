@@ -16,6 +16,7 @@ struct DashboardView: View {
     @Query(sort: \Subscription.name) private var subscriptions: [Subscription]
     @Environment(\.modelContext) private var modelContext
     @Environment(StoreManager.self) private var storeManager
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showRemoveAds = false
 
     private var suggestions: [SmartSuggestion] {
@@ -269,7 +270,7 @@ struct DashboardView: View {
                 }
             }
         }
-        .transition(.opacity.combined(with: .move(edge: .top)))
+        .transition(reduceMotion ? .opacity : .opacity.combined(with: .move(edge: .top)))
     }
 
     @ViewBuilder

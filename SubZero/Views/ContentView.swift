@@ -50,7 +50,6 @@ struct ContentView: View {
                     }
                     .tag(AppTab.cancel)
             }
-            .animation(.snappy, value: selectedTab)
             .simultaneousGesture(tabSwipeGesture)
 
             #if os(iOS)
