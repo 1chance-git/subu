@@ -7,11 +7,12 @@ flagged items below before publishing.
 
 1. **Name check**: "Subu" was chosen specifically to avoid the Sub-Zero
    appliance trademark risk the previous name (SubZero) carried — as a
-   coined word, it's a much safer category. Still worth a free, quick
-   sanity check before committing to it publicly: search "Subu" in the
-   USPTO's TESS trademark database (uspto.gov) — a few minutes, no cost.
-   Not something I can verify myself; I don't have live access to
-   trademark databases.
+   coined word, it's a much safer category. USPTO TESS search done by the
+   user — no trademark conflicts found. Separately, App Store Connect
+   rejected the plain "Subu" as an App Store *display name* because
+   another app is already listed under that exact name (unrelated to
+   trademark — it's Apple's own storefront-uniqueness check). Resolved by
+   appending a suffix; see App Name below.
 2. **Age rating**: the Discover catalog includes OnlyFans and X Premium as
    plain factual entries (name only, no logos, same treatment as every
    other provider like Netflix or Adobe) — this is intentional, since
@@ -22,10 +23,10 @@ flagged items below before publishing.
    here.
 
 ## App Name
-Subu
+Subu - Subscription Tracker
 
 ## Subtitle (30 characters)
-Track & cancel subscriptions
+Step-by-step cancellation
 
 ## Promotional Text (170 characters, editable without review)
 Stop losing money to subscriptions you forgot about. Subu finds them,
