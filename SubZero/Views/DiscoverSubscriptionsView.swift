@@ -221,7 +221,6 @@ private struct CatalogItemRow: View {
         .padding(14)
         .cardBackground(cornerRadius: 16)
         .animation(.snappy, value: isAdded)
-        .accessibilityElement(children: .combine)
     }
 }
 

@@ -57,6 +57,7 @@ struct RemoveAdsView: View {
                     }
                 }
                 .font(.subheadline)
+                .frame(minHeight: 44)
                 .disabled(isRestoring || storeManager.isAdsRemoved)
 
                 Spacer()
