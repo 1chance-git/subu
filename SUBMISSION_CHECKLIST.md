@@ -1,66 +1,55 @@
 # Subu — App Store Submission Checklist
 
-## Blocked on you (nothing I can do here)
+## Status: Submitted for review (2026-08-11)
 
-- [ ] Enroll in the paid Apple Developer Program ($99/year) — a free
-      Personal Team can never submit to the App Store, this isn't a
-      configuration issue.
-- [ ] Create the app record in App Store Connect once enrolled.
-- [ ] Create the "Remove Ads" in-app purchase product in App Store Connect
-      — the code already targets product ID `com.chancejohnson.subu.removeads`
-      (`StoreManager.swift`); create it there with a matching ID, or update
-      the constant if you want a different one.
-- [ ] Complete App Store Connect's App Privacy questionnaire using
-      `PRIVACY_POLICY.md` as the source of truth, and the age-rating
-      questionnaire (see the note in `APP_STORE_LISTING.md` about the
-      Discover catalog's Social & Creators section).
-- [ ] Export compliance question at submission: Subu uses no custom
-      encryption, so the standard "no" answer should apply — confirm this
-      is still true if anything changes before submission.
+Build 1.0 (3) uploaded and submitted to App Review. Apple's review
+typically takes up to 48 hours; notification arrives by email. Nothing
+left to do here unless the review comes back with a rejection.
 
-## Already done (verified this session)
+## Done
 
-- [x] App icon set complete — universal iOS icon with light/dark/tinted
-      1024×1024 variants, all required macOS sizes.
-- [x] Release configuration builds clean on both iOS Simulator and macOS.
-- [x] Real-device install, trust, and launch verified on a physical
-      iPhone via Personal Team signing.
-- [x] Ads render correctly (Google's test creative confirmed live in
-      Simulator); "Remove Ads" purchase flow is code-complete and fully
-      testable locally via `Products.storekit` (Xcode scheme → Run →
-      Options → StoreKit Configuration) without any App Store Connect
-      setup.
-- [x] No unused Info.plist entries (Reminders/Calendar keys removed after
-      that feature was cut).
-- [x] `GADApplicationIdentifier` correctly injected into the built
-      Info.plist via a build-phase script (custom keys aren't picked up by
-      `GENERATE_INFOPLIST_FILE`'s `INFOPLIST_KEY_*` mechanism on their
-      own).
-- [x] Real AdMob account created; production App ID and banner ad unit ID
-      wired in. Debug builds still always use Google's public test IDs
-      (Google explicitly warns against serving real ads during your own
-      testing); only Release builds use the real ones — verified both
-      configurations produce the correct ID in their own Info.plist.
-- [x] All 50 `SKAdNetworkItems` entries injected via the same build-phase
-      script, verified present in the built Info.plist. Spot-checked
-      against `developers.google.com/admob/ios/ios14` directly (raw HTML
-      diff, no summarization step) — exact match, all 50 confirmed current.
-- [x] Bundle identifier decided: `com.chancejohnson.subu` (app renamed
-      SubZero → Subu throughout; verified clean Debug build after the
-      rename).
-- [x] `PRIVACY_POLICY.md` date and contact email placeholders filled in,
-      and the policy is hosted at a public URL via GitHub Pages:
-      https://1chance-git.github.io/subu/privacy.html
-- [x] Support URL filled in (`APP_STORE_LISTING.md`): the project's GitHub
-      repo, https://github.com/1chance-git/subu, with a real README
-      (description, support contact, privacy policy link) replacing
-      GitHub's auto-generated placeholder.
-- [x] USPTO trademark search for "Subu" done (via tmsearch.uspto.gov,
-      run by the user directly since it's behind bot-detection I can't
-      script or view in-browser) — no conflicts found.
-- [x] App Store screenshots taken on iPhone 17 Pro Max (1320×2868, the
-      current 6.7"/6.9" display class Apple requires) — Dashboard,
-      Discover, Cancel Assistant, and subscription detail, seeded with
-      sample subscriptions and with the debug-only AdMob test banner
-      cropped out. Delivered to the user; ready to upload to App Store
-      Connect.
+- [x] Enrolled in the paid Apple Developer Program — team `S4TVS38XY6`
+      confirmed as a non-free Individual account.
+- [x] App record created in App Store Connect (Apple ID `6799872853`),
+      under the name `Subu - Subscription Tracker` (plain "Subu" was
+      already taken as a display name by another app — unrelated to
+      trademark, just Apple's storefront-uniqueness check).
+- [x] "Remove Ads" in-app purchase product created, product ID
+      `com.chancejohnson.subu.removeads` matching `StoreManager.swift`.
+- [x] Category set to Productivity, age rating questionnaire completed
+      (landed at 4+), App Privacy questionnaire completed using
+      `PRIVACY_POLICY.md` as source of truth (Identifiers/Device ID and
+      Usage Data/Advertising Data declared for the Google Mobile Ads SDK,
+      everything else "No" — nothing else leaves the device).
+- [x] Content Rights Information set (no third-party content).
+- [x] Pricing set to Free.
+- [x] `ITSAppUsesNonExemptEncryption = NO` baked into both build configs
+      — pre-answers the export compliance question on every build going
+      forward.
+- [x] Listing content filled in: name, subtitle, promotional text,
+      description, keywords, support URL, copyright (`Subu App, 2026`).
+- [x] All required App Store screenshot sizes uploaded: 6.9"/6.7" iPhone
+      (1320×2868, 4 screens), 6.5" iPhone (1284×2778), 13" iPad
+      (2064×2752).
+- [x] **Real crash bug found and fixed during iPad screenshot
+      generation**: Subu crashed on launch on iPad
+      (`GADInvalidInitializationException`) because
+      `GADApplicationIdentifier` was missing from the built Info.plist.
+      Root cause was a build-script ordering race — the "Inject Custom
+      Info.plist Keys" script phase had no declared dependency on
+      `ProcessInfoPlistFile`, so on iPad builds the system-generated
+      Info.plist was overwriting the injected ad config. Fixed by
+      declaring `$(CODESIGNING_FOLDER_PATH)/Info.plist` as an explicit
+      input path, verified via rebuild + successful iPad launch.
+- [x] Build number bumped to 3 (build 2 was the pre-fix upload, never
+      submitted).
+- [x] Archive re-signed under the paid team (`Apple Distribution: CHANCE
+      MICAH JOHNSON (S4TVS38XY6)`), uploaded via Xcode Organizer,
+      confirmed via local distribution logs: `UPLOAD SUCCEEDED with no
+      errors`, status 201.
+- [x] Submitted for App Review.
+
+## If Apple rejects
+
+Come back here and paste the rejection reason — happy to help diagnose
+and fix before resubmitting.
