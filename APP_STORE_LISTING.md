@@ -80,4 +80,4 @@ https://github.com/1chance-git/subu
 [Optional — leave blank if you don't have one.]
 
 ## Copyright
-[Your name or entity], [year]
+Subu App, 2026
